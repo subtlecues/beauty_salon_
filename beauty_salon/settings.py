@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'salon_app.apps.SalonAppConfig',
+    'user.apps.UserConfig',
+    'salon_admin.apps.SalonAdminConfig'
 ]
 
 MIDDLEWARE = [
