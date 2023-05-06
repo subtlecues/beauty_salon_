@@ -5,4 +5,15 @@
 {% endblock %}
 {% block content %}
 <h1>{{title}}</h1>
+
+{% for detail in service_details %}
+    <p style="font-size: 22px"><i>Service name</i>: {{detail.name}}</p>
+    <p style="font-size: 16px"><i>Duration</i>: {{detail.duration}} min</p>
+    <p style="font-size: 16px"><i>Price</i>: {{detail.price}} UAH</p>
+{% endfor %}
+
+{% for specialist in specialists %}
+    <p style="font-size: 22px"><i>Specialist</i>: {{specialist.name}}</p>
+{% endfor %}
+
 {% endblock %}

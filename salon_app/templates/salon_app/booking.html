@@ -1,8 +1,38 @@
 {% extends 'salon_app/base.html' %}
 {% load static %}
+
 {% block title %}
 {{title}}
 {% endblock %}
+
 {% block content %}
-<h1>{{title}}</h1>
+  <h1>{{title}}</h1>
+  <form method="POST" action="{% url 'salon_app:booking' %}">
+    {% csrf_token %}
+    <div class="form-group">
+      <label for="user_id">User ID:</label>
+      <input type="text" class="form-control" id="user_id" name="user_id" required>
+    </div>
+    <div class="form-group">
+      <label for="service_name">Service:</label>
+      <select class="form-control" id="service_name" name="service_name" required>
+        {% for service in services %}
+          <option value="{{ service.name }}">{{ service.name }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="specialist_id">Specialist:</label>
+      <select class="form-control" id="specialist_id" name="specialist_id" required>
+        {% for specialist in specialists %}
+          <option value="{{ specialist.id }}">{{ specialist.name }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="booking_time">Booking Time:</label>
+      <input type="datetime-local" class="form-control" id="booking_time" name="booking_time" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Book Now</button>
+  </form>
 {% endblock %}
