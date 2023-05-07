@@ -28,21 +28,13 @@ Add Specialist
         </select><br>
     </div><br>
     <div>
-        <h5>Services</h5>
+        <h4>Services</h4>
         {% for service in services %}
         <dd>
             <label for="service_{{service.id}}"> - {{service.name}}</label>
-            <input type="checkbox" id="service_{{service.id}}" name="service_{{service.id}}"
-                   value="{{service.id}}">
+            <input type="checkbox" id="service_{{service.id}}" name="services" value="{{service.id}}">
         </dd>
         {% endfor %}
-    </div>
-    <div>
-        <h5>Work schedule</h5>
-        <label for="begin">Begin: </label>
-        <input type="datetime-local" id="begin" name="begin" required>
-        <label for="end">End: </label>
-        <input type="datetime-local" id="end" name="end" required>
     </div>
     <input type="submit" value="Add specialist">
     <a href="../">Cancel</a>

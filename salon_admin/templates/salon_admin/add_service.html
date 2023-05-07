@@ -1,0 +1,14 @@
+{% extends 'salon_admin/adminbase.html' %}
+
+{% block title %}
+Add Service
+{% endblock %}
+
+{% block content %}
+  <h1>Add Service</h1>
+  <form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Save</button>
+  </form>
+{% endblock %}

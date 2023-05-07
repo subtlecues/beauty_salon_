@@ -24,7 +24,7 @@ urlpatterns = [
     path('', include(('salon_app.urls', 'salon_app'), namespace='salon_app')),    path('admin/', admin.site.urls),
     path('', include('salon_app.urls')),
     path('user/', include('user.urls')),
-    path('administrator/', include('salon_admin.urls')),
+    path('salon_admin/', include('salon_admin.urls')),
 
 ]
 

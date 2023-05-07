@@ -8,17 +8,14 @@ Add Work Schedule
 <form method="POST">
     {% csrf_token %}
     <div>
-        <label for="specialist">Specialist:</label>
-        <select name="specialist" id="specialist" required>
-            <option value="" selected disabled hidden>Choose a specialist</option>
-            {% for specialist in specialists %}
-                <option value="{{ specialist.id }}">{{ specialist.name }}</option>
-            {% endfor %}
-        </select><br>
-        <label for="begin_time">Begin Time:</label>
-        <input type="datetime-local" id="begin_time" name="begin_time" required><br>
-        <label for="end_time">End Time:</label>
-        <input type="datetime-local" id="end_time" name="end_time" required><br>
+        {{ form.specialist.label_tag }}
+        {{ form.specialist }}
+        {{ form.date.label_tag }}
+        {{ form.date }}
+        {{ form.begin_time.label_tag }}
+        {{ form.begin_time }}
+        {{ form.end_time.label_tag }}
+        {{ form.end_time }}
     </div>
     <input type="submit" value="Add Work Schedule">
     <a href="../">Cancel</a>
