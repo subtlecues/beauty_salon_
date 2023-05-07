@@ -1,8 +1,31 @@
-{% extends 'salon_admin/admbase.html' %}
-{% load static %}
-{% block title %}
-{{title}}
-{% endblock %}
+{% extends 'base.html' %}
+
 {% block content %}
-<h1>{{title}}</h1>
+  <h1>{{ title }}</h1>
+  <table>
+    <thead>
+      <tr>
+        <th>Booking ID</th>
+        <th>Date and Time</th>
+        <th>Client Name</th>
+        <th>Service Name</th>
+        <th>Specialist Name</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for booking in bookings %}
+        <tr>
+          <td>{{ booking.id }}</td>
+          <td>{{ booking.date_time }}</td>
+          <td>{{ booking.client_name }}</td>
+          <td>{{ booking.service.name }}</td>
+          <td>{{ booking.specialist.name }}</td>
+        </tr>
+      {% empty %}
+        <tr>
+          <td colspan="5">No bookings found.</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
 {% endblock %}

@@ -35,10 +35,12 @@ class WorkSchedule(models.Model):
     specialist = models.ForeignKey(Specialist, on_delete=models.CASCADE)
     begin_time = models.DateTimeField()
     end_time = models.DateTimeField()
-    date = models.DateField(auto_now=True)
+    date = models.DateField()
 
     def __repr__(self):
         return f'{Specialist.name} is working on {self.date} from {self.begin_time} till {self.end_time}'
+
+
 
 
 class Booking(models.Model):
@@ -57,7 +59,7 @@ class Booking(models.Model):
 
     def __repr__(self):
         return f'Booking: Customer: {self.customer}, ' \
-               f'specialist: {Specialist.name}, ' \
+               f'specialist: {self.specialist.name}, ' \
                f'date: {self.date}, time: {self.time}'
 
     def __str__(self):

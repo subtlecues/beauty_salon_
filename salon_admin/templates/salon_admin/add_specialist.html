@@ -1,0 +1,50 @@
+{% extends 'salon_admin/adminbase.html' %}
+{% load static %}
+{% block title %}
+Add Specialist
+{% endblock %}
+{% block content %}
+<h1>Add a Specialist:</h1>
+<form method="POST">
+    {% csrf_token %}
+    <div>
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required><br>
+        <label for="rank">Rank:</label>
+        <select name="rank" id="rank" required>
+            <option value="" selected disabled hidden>Choose a rank</option>
+            <option value="1">Rank 1</option>
+            <option value="2">Rank 2</option>
+        </select><br>
+        <label for="phone">Phone:</label>
+        <input type="tel" id="phone" pattern="+[0-9]{12}" name="phone" required><br>
+        <label for="status">Status:</label>
+        <select name="status" id="status" required>
+            <option value="" selected disabled hidden>Choose a status</option>
+            <option value="1">Day off</option>
+            <option value="2">At Work</option>
+            <option value="3">Sickness</option>
+            <option value="9">Fired</option>
+        </select><br>
+    </div><br>
+    <div>
+        <h5>Services</h5>
+        {% for service in services %}
+        <dd>
+            <label for="service_{{service.id}}"> - {{service.name}}</label>
+            <input type="checkbox" id="service_{{service.id}}" name="service_{{service.id}}"
+                   value="{{service.id}}">
+        </dd>
+        {% endfor %}
+    </div>
+    <div>
+        <h5>Work schedule</h5>
+        <label for="begin">Begin: </label>
+        <input type="datetime-local" id="begin" name="begin" required>
+        <label for="end">End: </label>
+        <input type="datetime-local" id="end" name="end" required>
+    </div>
+    <input type="submit" value="Add specialist">
+    <a href="../">Cancel</a>
+</form>
+{% endblock %}

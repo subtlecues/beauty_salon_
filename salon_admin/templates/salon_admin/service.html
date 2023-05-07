@@ -1,8 +1,24 @@
-{% extends 'salon_admin/admbase.html' %}
+{% extends 'salon_admin/adminbase.html' %}
 {% load static %}
 {% block title %}
-{{title}}
+{{ title }}
 {% endblock %}
 {% block content %}
-<h1>{{title}}</h1>
+<form method="POST">
+  {% csrf_token %}
+  <div class="form-group">
+    {{ form.name.label_tag }}
+    {{ form.name }}
+  </div>
+  <div class="form-group">
+    {{ form.price.label_tag }}
+    {{ form.price }}
+  </div>
+  <div class="form-group">
+    {{ form.duration.label_tag }}
+    {{ form.duration }}
+  </div>
+  <button type="submit" class="btn btn-primary">Save service</button>
+  <a href="{% url 'services' %}" class="btn btn-secondary">Cancel</a>
+</form>
 {% endblock %}

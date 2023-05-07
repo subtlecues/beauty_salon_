@@ -1,0 +1,26 @@
+{% extends 'salon_admin/adminbase.html' %}
+{% load static %}
+{% block title %}
+Add Work Schedule
+{% endblock %}
+{% block content %}
+<h1>Add a New Work Schedule:</h1>
+<form method="POST">
+    {% csrf_token %}
+    <div>
+        <label for="specialist">Specialist:</label>
+        <select name="specialist" id="specialist" required>
+            <option value="" selected disabled hidden>Choose a specialist</option>
+            {% for specialist in specialists %}
+                <option value="{{ specialist.id }}">{{ specialist.name }}</option>
+            {% endfor %}
+        </select><br>
+        <label for="begin_time">Begin Time:</label>
+        <input type="datetime-local" id="begin_time" name="begin_time" required><br>
+        <label for="end_time">End Time:</label>
+        <input type="datetime-local" id="end_time" name="end_time" required><br>
+    </div>
+    <input type="submit" value="Add Work Schedule">
+    <a href="../">Cancel</a>
+</form>
+{% endblock %}
