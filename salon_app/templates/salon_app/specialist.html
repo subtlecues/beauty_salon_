@@ -1,9 +1,50 @@
 {% extends 'salon_app/base.html' %}
-{% load static %}
-{% block title %}
-{{title}}
-{% endblock %}
+
 {% block content %}
-<h1>Specialist {{specialist.name}}</h1>
+<h1>Specialist {{specialist.name}} details</h1>
+  <table>
+    <tr>
+      <th>Name</th>
+      <td>{{ specialist.name }}</td>
+    </tr>
+    <tr>
+      <th>Rank</th>
+      <td>{{ specialist.get_rank_display }}</td>
+    </tr>
+    <tr>
+      <th>Phone</th>
+      <td>{{ specialist.phone }}</td>
+    </tr>
+    <tr>
+      <th>Status</th>
+      <td>{{ specialist.get_status_display }}</td>
+    </tr>
+    <tr>
+      <th>Available services</th>
+      <td>
+        <ul>
+          {% for service in specialist.services.all %}
+            <li>{{ service.name }}</li>
+
+          {% endfor %}
+          {% for service, slots in available_booking.items %}
+  <h3>{{ service }}</h3>
+  {% if slots %}
+    <ul>
+      {% for slot in slots %}
+        <li>{{ slot }}</li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No available slots for this service</p>
+  {% endif %}
+{% endfor %}
+
+        </ul>
+      </td>
+    </tr>
+  </table>
+
+
 
 {% endblock %}

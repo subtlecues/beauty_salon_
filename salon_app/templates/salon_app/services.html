@@ -6,7 +6,13 @@
 
 <h1>You can get the following services in our beauty salon:</h1>
 
-{% for service in services %}
-    <p style="font-size: 32px"><a href="{{service.name}}/">{{service.name}}</a></p>
-{% endfor %}
+  <ul>
+    {% for service in services %}
+          <p style="font-size: 30px"><a href="{{service.name}}/">{{service.name}}</a></p>
+
+<!--      <li>{{ service.name }}</li>-->
+    {% empty %}
+      <li>No services available.</li>
+    {% endfor %}
+  </ul>
 {% endblock %}

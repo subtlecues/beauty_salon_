@@ -17,16 +17,24 @@
       {{ form.customer }}
     </div>
     <div class="form-group">
-      {{ form.date.label_tag }}
-      {{ form.date }}
+      {{ form.booking_from.label_tag }}
+      {{ form.booking_from }}
     </div>
     <div class="form-group">
-      {{ form.time.label_tag }}
-      {{ form.time }}
+      {{ form.booking_to.label_tag }}
+      {{ form.booking_to }}
     </div>
     <div class="form-group">
       {{ form.phone.label_tag }}
       {{ form.phone }}
+    </div>
+    <div class="form-group">
+      {{ form.status.label_tag }}
+      {{ form.status }}
+    </div>
+    <div class="form-group">
+      {{ form.comment.label_tag }}
+      {{ form.comment }}
     </div>
     <button type="submit" class="btn btn-primary">Make Reservation</button>
   </form>

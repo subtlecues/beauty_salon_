@@ -3,6 +3,8 @@ from datetime import datetime, timedelta, date
 from django.utils import timezone
 from salon_app.models import Service, Specialist, WorkSchedule, Booking
 from .forms import ServiceForm, SpecialistForm, WorkScheduleForm, BookingForm
+from .utilities import get_available_time_slots, available_time_slots
+
 
 def main(request):
     return render(request, 'salon_admin/main.html', {'title': 'Administration page'})
@@ -47,7 +49,7 @@ def specialist(request, specialist_id):
             work_schedule = form.save(commit=False)
             work_schedule.specialist = specialist
             work_schedule.save()
-            return redirect('specialist', specialist_id=specialist_id)
+            return redirect('salon_admin:specialist', specialist_id=specialist_id)
     else:
         form = WorkScheduleForm()
     return render(request, 'salon_admin/specialist.html', {'title': specialist.name, 'specialist': specialist, 'schedules': schedules, 'form': form})
@@ -57,7 +59,7 @@ def reservation(request):
         form = BookingForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('bookings')
+            return redirect('salon_admin:bookings')
     else:
         form = BookingForm()
     return render(request, 'salon_admin/reservation.html', {'title': 'Reservation', 'form': form})
@@ -95,12 +97,10 @@ def add_work_schedule(request):
         form = WorkScheduleForm(request.POST)
         if form.is_valid():
             specialist = form.cleaned_data['specialist']
-            date = form.cleaned_data['date']
             begin_time = form.cleaned_data['begin_time']
             end_time = form.cleaned_data['end_time']
             WorkSchedule.objects.create(
                 specialist=specialist,
-                date=date,
                 begin_time=begin_time,
                 end_time=end_time
             )
@@ -108,3 +108,41 @@ def add_work_schedule(request):
     else:
         form = WorkScheduleForm(initial={'date': datetime.today()})
     return render(request, 'salon_admin/add_work_schedule.html', {'form': form})
+
+from django.contrib import messages
+
+def service_detail(request, service_id):
+    service = get_object_or_404(Service, pk=service_id)
+    available_slots = get_available_time_slots(service_id=service_id)
+    if request.method == 'POST':
+        form = BookingForm(request.POST)
+        if form.is_valid():
+            booking = form.save(commit=False)
+            booking.service = service
+            booking.specialist = form.cleaned_data['specialist']
+            booking.date = form.cleaned_data['date']
+            booking.time = form.cleaned_data['time']
+            booking.save()
+            messages.success(request, 'Booking successful!')
+            return redirect('salon_admin:service_detail', service_id=service_id)
+    else:
+        form = BookingForm()
+    return render(request, 'salon_admin/service_detail.html', {'service': service, 'form': form, 'available_slots': available_slots})
+
+def specialist_detail(request, specialist_id):
+    specialist = get_object_or_404(Specialist, pk=specialist_id)
+    available_slots = get_available_time_slots(specialist_id=specialist_id)
+    if request.method == 'POST':
+        form = BookingForm(request.POST)
+        if form.is_valid():
+            booking = form.save(commit=False)
+            booking.specialist = specialist
+            booking.service = form.cleaned_data['service']
+            booking.date = form.cleaned_data['date']
+            booking.time = form.cleaned_data['time']
+            booking.save()
+            messages.success(request, 'Booking successful!')
+            return redirect('specialist_detail', specialist_id=specialist_id)
+    else:
+        form = BookingForm()
+    return render(request, 'salon_admin/specialist_detail.html', {'specialist': specialist, 'form': form, 'available_slots': available_slots})

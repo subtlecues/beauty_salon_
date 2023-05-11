@@ -1,4 +1,5 @@
 from django import forms
+from django.forms.widgets import DateTimeInput
 from salon_app.models import Service, Specialist, WorkSchedule, Booking
 
 
@@ -60,11 +61,10 @@ class SpecialistForm(forms.ModelForm):
 class WorkScheduleForm(forms.ModelForm):
     class Meta:
         model = WorkSchedule
-        fields = ['specialist', 'date', 'begin_time', 'end_time']
+        fields = ['specialist', 'begin_time', 'end_time']
         widgets = {
-            'date': forms.DateInput(attrs={'type': 'date'}),
-            'begin_time': forms.TimeInput(attrs={'type': 'time'}),
-            'end_time': forms.TimeInput(attrs={'type': 'time'}),
+            'begin_time': DateTimeInput(attrs={'type': 'datetime-local'}),
+            'end_time': DateTimeInput(attrs={'type': 'datetime-local'}),
         }
 
 
@@ -73,4 +73,8 @@ class WorkScheduleForm(forms.ModelForm):
 class BookingForm(forms.ModelForm):
     class Meta:
         model = Booking
-        fields = ('specialist', 'service', 'customer', 'date', 'time', 'phone')
+        fields = ['specialist', 'service', 'customer', 'booking_from', 'booking_to', 'phone', 'status', 'comment']
+        widgets = {
+            'booking_from': DateTimeInput(attrs={'type': 'datetime-local'}),
+            'booking_to': DateTimeInput(attrs={'type': 'datetime-local'}),
+        }

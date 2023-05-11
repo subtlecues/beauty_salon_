@@ -1,0 +1,38 @@
+{% extends 'salon_admin/adminbase.html' %}
+
+{% block content %}
+<h1>{{ specialist.name }}</h1>
+
+{% if message %}
+<p>{{ message }}</p>
+{% endif %}
+
+{% if available_slots %}
+<p><strong>Available time slots:</strong></p>
+<ul>
+    {% for slot in available_slots %}
+    <li>{{ slot }}</li>
+    {% endfor %}
+</ul>
+
+<form method="post">
+    {% csrf_token %}
+    <input type="hidden" name="specialist" value="{{ specialist.id }}">
+    <input type="hidden" name="service" value="{{ service.id }}">
+    <label for="date">Date:</label>
+    <input type="date" name="date" required>
+    <br>
+    <label for="time">Time:</label>
+    <select name="time" required>
+        {% for slot in available_slots %}
+        <option value="{{ slot }}">{{ slot }}</option>
+        {% endfor %}
+    </select>
+    <br>
+    <button type="submit">Book</button>
+</form>
+
+{% else %}
+<p>No available time slots.</p>
+{% endif %}
+{% endblock %}
