@@ -2,6 +2,13 @@ from datetime import datetime, timedelta
 from salon_app.models import Booking, Specialist, Service
 
 def get_available_time_slots(specialist_id=None, service_id=None):
+    """
+    OLD FUNCTION USED IN SALON_ADMIN APP. TO BE DELETED OR EDITED BECAUSE OF WRONG CONCEPT
+    NOT USED IN SALON_APP. SEE NEXT FUNC FOR FUNCTIONAL ONE
+    :param specialist_id:
+    :param service_id:
+    :return:
+    """
     available_slots = {}
     today = datetime.now().date()
     for i in range(7):
@@ -32,11 +39,17 @@ def get_available_time_slots(specialist_id=None, service_id=None):
     return available_slots
 
 
-from datetime import timedelta
 
 
 def available_time_slots(service_duration, start_time, end_time, booked_time):
-
+    """
+    NEW FUNCT TO BE USED IN SALON_APP
+    :param service_duration:
+    :param start_time:
+    :param end_time:
+    :param booked_time:
+    :return:
+    """
 
     service_duration = timedelta(minutes=service_duration)
     time_step = timedelta(minutes=15)
