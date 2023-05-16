@@ -50,6 +50,8 @@ def available_time_slots(service_duration, start_time, end_time, booked_time):
     :param booked_time:
     :return:
     """
+    if end_time <= start_time:
+        raise AttributeError('Error. Incorrect datetime values were received')
 
     service_duration = timedelta(minutes=service_duration)
     time_step = timedelta(minutes=15)
