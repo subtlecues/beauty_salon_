@@ -1,13 +1,19 @@
 import os
+
+from django.urls import reverse
+
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'beauty_salon.settings')
 import django
 from django.conf import settings
 
 if not settings.configured:
     django.setup()
-from django.test import TestCase
+from django.test import TestCase, Client
 from salon_admin.utilities import available_time_slots
-from datetime import datetime
+from datetime import datetime, timezone
+from salon_app.models import *
+from salon_admin.views import reservation
+from salon_admin.forms import BookingForm
 
 
 
@@ -94,3 +100,35 @@ class TestAvailableTimeSlots(TestCase):
         result = available_time_slots(serv_duration, start_period, end_period, booked_time)
         expected_result = []
         self.assertEqual(result, expected_result)
+
+
+class TestEndpoint(TestCase):
+    def test_booking_status_200(self):
+        c = Client()
+        service = Service.objects.create(name='Manicure',
+                                         price=150.0,
+                                         duration=30)
+        service.save()
+        specialist = Specialist.objects.create(name='Jenny',
+                                               rank=1,
+                                               phone='+108003736566',
+                                               status=2)
+        specialist.services.add(service)
+        specialist.save()
+
+        response = c.post(reverse('salon_admin:reservation'), {
+            'specialist': specialist.id,
+            'service': service.id,
+            'customer': 1,
+            'booking_from': '2023-04-10 10:00',
+            'booking_to': '2023-04-10 11:00',
+            'phone': '+123456789',
+            'status': 2,
+            'comment': 'Test comment'
+        })
+
+        self.assertEqual(response.status_code, 302)
+
+        booking = Booking.objects.get(specialist=specialist, service=service)
+        expected_booking_from = datetime(2023, 4, 10, 10, 0, tzinfo=timezone.utc)
+        self.assertEqual(booking.booking_from, expected_booking_from)
